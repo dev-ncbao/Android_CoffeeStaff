@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -46,7 +45,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         //
         intents = new Intent[]{
-            new Intent(HomeActivity.this, OrderActivity.class),
+            new Intent(HomeActivity.this, ChooseTableActivity.class),
                     null,
                     null
         };
@@ -110,8 +109,7 @@ public class HomeActivity extends AppCompatActivity {
                 imvIcon.setImageResource(_getIcon(i));
                 Drawable background = getResources().getDrawable(R.drawable.menu_item_shape);
                 DrawableCompat.setTint(background, Color.parseColor(_getBackground(i)));
-                imvIcon.setBackground(getResources().getDrawable(R.drawable.menu_item_shape));
-                //imvIcon.setBackgroundColor(Color.parseColor(_getBackground(i)));
+                imvIcon.setBackground(background);
                 txtLabel.setText(_getLabel(i));
             }
             return convertView;

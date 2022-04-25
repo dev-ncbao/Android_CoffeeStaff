@@ -2,7 +2,9 @@ package com.example.coffeestaff.Presentation;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -11,25 +13,25 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.coffeestaff.Data.CommonModels.DrinkOrders;
+import com.example.coffeestaff.Data.ModelHelper.DrinksHelper;
+import com.example.coffeestaff.Data.Models.Drinks;
 import com.example.coffeestaff.R;
+import com.google.gson.Gson;
+
+import java.io.Serializable;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Map;
 
 public class ChooseDrinksActivity extends AppCompatActivity {
-    private String[] drinks = {
-            "Cà phê",
-            "Cà phê sữa",
-            "Trà đường",
-            "Bạc xĩu"
-    };
-    private Integer[] prices = {
-            12000, 15000, 10000, 15000
-    };
-    private Integer[] pictures = {
-            R.drawable.cafe,
-            R.drawable.cafe_sua,
-            R.drawable.tra_duong,
-            R.drawable.bac_xiu
-    };
+    private ArrayList<Drinks> _drinks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,24 +39,50 @@ public class ChooseDrinksActivity extends AppCompatActivity {
         setContentView(R.layout.activity_choosedrinks);
         //
         ListView lsvDrink = findViewById(R.id.lsvDrinks);
-        ListViewAdapter adapter = new ListViewAdapter(drinks, prices, pictures);
+        Button btnConfirm = findViewById(R.id.btnConfirm);
+        Button btnBack = findViewById(R.id.btnBack);
+        //
+        DrinksHelper drinksHelper = new DrinksHelper(this);
+        _drinks = drinksHelper.selectAll();
+        ListViewAdapter adapter = new ListViewAdapter(_drinks);
         lsvDrink.setAdapter(adapter);
+
+        //
+        btnBack.setOnClickListener(view -> ChooseDrinksActivity.this.finish());
+        //
+        btnConfirm.setOnClickListener(view -> {
+            Intent intent = new Intent();
+            Bundle bundle = new Bundle();
+            ArrayList<DrinkOrders> orders = adapter.getOrders();
+            if (orders.size() > 0) {
+                ArrayList<String> ordersSerialize = new ArrayList<>();
+                Gson gson = new Gson();
+                for (int i = 0; i < orders.size(); i++) {
+                    ordersSerialize.add(gson.toJson(orders.get(i)));
+                }
+                bundle.putStringArrayList("orders", ordersSerialize);
+                intent.putExtra("orders-result", bundle);
+                setResult(RESULT_OK, intent);
+                ChooseDrinksActivity.this.finish();
+            }
+            else Toast.makeText(ChooseDrinksActivity.this, "Số lượng order không hợp lệ", Toast.LENGTH_SHORT).show();
+        });
     }
 
     class ListViewAdapter extends BaseAdapter {
-        private String[] drinks = null;
-        private Integer[] prices = null;
-        private Integer[] pictures = null;
+        private ArrayList<Drinks> _drinks;
+        private ArrayList<Integer> _amounts = new ArrayList<>();
 
-        public ListViewAdapter(String[] _drinks, Integer[] _prices, Integer[] _pictures) {
-            drinks = _drinks;
-            prices = _prices;
-            pictures = _pictures;
+        public ListViewAdapter(ArrayList<Drinks> drinks) {
+            _drinks = drinks;
+            for (int i = 0; i < _drinks.size(); i++) {
+                _amounts.add(0);
+            }
         }
 
         @Override
         public int getCount() {
-            return drinks.length;
+            return _drinks.size();
         }
 
         @Override
@@ -62,16 +90,39 @@ public class ChooseDrinksActivity extends AppCompatActivity {
             return null;
         }
 
-        public String getDrinkName(int i){
-            return drinks[i];
+        public String getDrinkName(int i) {
+            return _drinks.get(i).getName();
         }
 
-        public Integer getDrinkPrice(int i){
-            return prices[i];
+        public double getDrinkPrice(int i) {
+            return _drinks.get(i).getPrice();
         }
 
-        public Integer getPicture(int i){
-            return pictures[i];
+        public Integer getPicture(int i) {
+            return _drinks.get(i).getImage();
+        }
+
+        public ArrayList<DrinkOrders> getOrders() {
+            ArrayList<DrinkOrders> orders = new ArrayList<>();
+            for (int i = 0; i < _drinks.size(); i++) {
+                if (_amounts.get(i) > 0)
+                    orders.add(new DrinkOrders(_drinks.get(i).getId(), _amounts.get(i)));
+            }
+            return orders;
+        }
+
+        private boolean decreasableOrder(int i) {
+            return _amounts.get(i) > 0 ? true : false;
+        }
+
+        private void decreaseOrder(int i) {
+            _amounts.set(i, _amounts.get(i) - 1);
+            notifyDataSetChanged();
+        }
+
+        private void increaseOrder(int i) {
+            _amounts.set(i, _amounts.get(i) + 1);
+            notifyDataSetChanged();
         }
 
         @Override
@@ -85,20 +136,22 @@ public class ChooseDrinksActivity extends AppCompatActivity {
             if (view != null) convertView = view;
             else {
                 convertView = View.inflate(viewGroup.getContext(), R.layout.layout_drinklist, null);
-                //TextView txtSTT = (TextView)convertView.findViewById(R.id.txtSTT);
-                TextView txtDrinkName = (TextView)convertView.findViewById(R.id.txtDrinkName);
-                TextView txtDrinkPrice = (TextView)convertView.findViewById(R.id.txtDrinkPrice);
-                TextView txtAmount = (TextView)convertView.findViewById(R.id.txtAmount);
-                ImageView imvDrink = (ImageView) convertView.findViewById(R.id.imvDrink);
-                ImageButton btnDecrease = (ImageButton) convertView.findViewById(R.id.btnDecrease);
-                ImageButton btnIncrease = (ImageButton) convertView.findViewById(R.id.btnIncrease);
-                //
-                //txtSTT.setText(i + 1 + "");
-                txtDrinkName.setText(getDrinkName(i));
-                txtDrinkPrice.setText(getDrinkPrice(i) + "đ");
-                txtAmount.setText(0 + "");
-                imvDrink.setImageResource(getPicture(i));
             }
+            TextView txtDrinkName = convertView.findViewById(R.id.txtDrinkName);
+            TextView txtDrinkPrice = convertView.findViewById(R.id.txtDrinkPrice);
+            TextView txtAmount = convertView.findViewById(R.id.txtAmount);
+            ImageView imvDrink = convertView.findViewById(R.id.imvDrink);
+            ImageButton btnDecrease = convertView.findViewById(R.id.btnDecrease);
+            ImageButton btnIncrease = convertView.findViewById(R.id.btnIncrease);
+            //
+            txtDrinkName.setText(getDrinkName(i));
+            txtDrinkPrice.setText(NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(getDrinkPrice(i)));
+            txtAmount.setText(_amounts.get(i).toString());
+            imvDrink.setImageResource(getPicture(i));
+            btnDecrease.setOnClickListener(v -> {
+                if (decreasableOrder(i)) decreaseOrder(i);
+            });
+            btnIncrease.setOnClickListener(v -> increaseOrder(i));
             return convertView;
         }
     }

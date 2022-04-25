@@ -8,19 +8,19 @@
     android:orientation="vertical"
     tools:context=".Presentation.ChooseDrinksActivity">
 
-    <LinearLayout
+    <!--<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
         android:gravity="bottom"
-        android:layout_marginTop="10dp">
+        android:orientation="horizontal">
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
             android:layout_marginRight="10dp"
-            android:layout_gravity="center_vertical">
+            android:layout_weight="1">
 
             <EditText
                 android:id="@+id/edtSearch"
@@ -32,42 +32,44 @@
                 android:textCursorDrawable="@drawable/cursor_color"
                 android:textSize="16dp" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <Button
             android:id="@+id/btnSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18dp"
-            android:paddingVertical="10dp"
-            android:textAllCaps="false"
-            android:textStyle="normal"
-            android:letterSpacing="0"
             android:backgroundTint="#16a8ea"
+            android:letterSpacing="0"
+            android:paddingVertical="10dp"
+            android:text="Tìm"
+            android:textAllCaps="false"
             android:textColor="#fff"
-            android:text="Tìm"/>
-    </LinearLayout>
+            android:textSize="18dp"
+            android:textStyle="normal" />
+    </LinearLayout>-->
 
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:stretchColumns="0"
         android:layout_weight="1"
-        android:paddingVertical="10dp">
+        android:paddingVertical="10dp"
+        android:stretchColumns="0">
 
         <TableRow>
-<!--            <TextView
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="STT"
-                android:textSize="16dp"
-                android:textAlignment="center"/>-->
+            <!--            <TextView
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:text="STT"
+                            android:textSize="16dp"
+                            android:textAlignment="center"/>-->
             <TextView
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Thức uống"
                 android:textSize="16dp" />
+
             <TextView
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Số lượng"
                 android:textSize="16dp" />
         </TableRow>
@@ -78,17 +80,42 @@
             android:layout_height="match_parent" />
     </TableLayout>
 
-    <Button
-        android:id="@+id/btnComfirm"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Xong"
-        android:textSize="18dp"
-        android:paddingVertical="10dp"
-        android:textAllCaps="false"
-        android:letterSpacing="0"
-        android:backgroundTint="#16a8ea"
-        android:textColor="#fff"
-        android:layout_marginVertical="10dp"/>
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:paddingVertical="10dp">
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:backgroundTint="#f5f5f5"
+            android:letterSpacing="0"
+            android:paddingVertical="10dp"
+            android:text="Trở lại"
+            android:textAllCaps="false"
+            android:textColor="#16a8ea"
+            android:textSize="18dp"
+            android:layout_margin="10dp"/>
+
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/btnConfirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:backgroundTint="#16a8ea"
+            android:letterSpacing="0"
+            android:paddingVertical="10dp"
+            android:text="Xong"
+            android:textAllCaps="false"
+            android:textColor="#fff"
+            android:textSize="18dp"
+            android:layout_margin="10dp"/>
+    </LinearLayout>
 
 </LinearLayout>
