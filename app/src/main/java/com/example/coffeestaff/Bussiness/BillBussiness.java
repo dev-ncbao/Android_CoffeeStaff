@@ -1,20 +1,25 @@
-package com.example.coffeestaff.Data.ModelHelper;
+package com.example.coffeestaff.Bussiness;
+
+import static com.example.coffeestaff.Data.Bills.ALL_COL;
+import static com.example.coffeestaff.Data.Bills.COL_ID;
+import static com.example.coffeestaff.Data.Bills.COL_PAID;
+import static com.example.coffeestaff.Data.Bills.COL_STAFF_ID;
+import static com.example.coffeestaff.Data.Bills.COL_TABLE_ID;
+import static com.example.coffeestaff.Data.Bills.COL_TIME_CREATED;
+import static com.example.coffeestaff.Data.Bills.NAME;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 
 import com.example.coffeestaff.Data.DbHelper;
-import com.example.coffeestaff.Data.Models.Bills;
+import com.example.coffeestaff.Data.Bills;
 
-public class BillsHelper {
-    public static final String NAME = "Bills";
+public class BillBussiness {
+    /*public static final String NAME = "Bills";
     public static final String COL_ID = "ID";
     public static final String COL_TABLE_ID = "TableId";
     public static final String COL_STAFF_ID = "StaffId";
@@ -30,16 +35,15 @@ public class BillsHelper {
                             "%s Integer," +
                             "%s Text," +
                             "%s Integer);",
-                    NAME, COL_ID, COL_TABLE_ID, COL_STAFF_ID, COL_TIME_CREATED, COL_PAID);
+                    NAME, COL_ID, COL_TABLE_ID, COL_STAFF_ID, COL_TIME_CREATED, COL_PAID);*/
     private SQLiteDatabase _db;
 
-    // Helpers
-    public BillsHelper(Context context) {
+    public BillBussiness(Context context) {
         DbHelper helper = new DbHelper(context);
         _db = helper.getWritableDatabase();
     }
 
-    public BillsHelper(SQLiteDatabase db) {
+    public BillBussiness(SQLiteDatabase db) {
         _db = db;
     }
 
@@ -83,24 +87,9 @@ public class BillsHelper {
         return listBill;
     }
 
-    /*public ArrayList<Bills> selectByDate(Date date){
-        ArrayList<Bills> listBill = new ArrayList<>();
-        Cursor cursor = _db.query(NAME, ALL_COL, , null,null,null,null);
+    public Integer selectBillId(Integer tableId){
+        Cursor cursor = _db.query(NAME, ALL_COL, COL_TABLE_ID + "=" + tableId + " AND " + COL_PAID + "=" + 0 , null, null, null, null);
         cursor.moveToFirst();
-        do {
-            Bills bill = null;
-            try{
-                bill = new Bills(
-                        cursor.getInt(0),
-                        cursor.getInt(1),
-                        cursor.getInt(2),
-                        DateFormat.getDateInstance().parse(cursor.getString(3))
-                );
-                listBill.add(bill);
-            }catch (ParseException e){
-                e.printStackTrace();
-            }
-        }while(cursor.moveToNext());
-        return listBill;
-    }*/
+        return cursor.getInt(0);
+    }
 }

@@ -1,14 +1,10 @@
-package com.example.coffeestaff.Data.CommonModels;
+package com.example.coffeestaff.Commons.Models;
 
-import com.example.coffeestaff.Data.Models.Drinks;
-
-import java.util.ArrayList;
-
-public class DrinkOrders {
+public class Order {
     private Integer drinkId;
     private Integer amount;
 
-    public DrinkOrders(Integer drinkId, Integer amount) {
+    public Order(Integer drinkId, Integer amount) {
         this.drinkId = drinkId;
         this.amount = amount;
     }

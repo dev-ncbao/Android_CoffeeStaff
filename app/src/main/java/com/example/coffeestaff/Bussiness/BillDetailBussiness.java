@@ -1,4 +1,11 @@
-package com.example.coffeestaff.Data.ModelHelper;
+package com.example.coffeestaff.Bussiness;
+
+import static com.example.coffeestaff.Data.BillDetails.ALL_COL;
+import static com.example.coffeestaff.Data.BillDetails.COL_AMOUNT;
+import static com.example.coffeestaff.Data.BillDetails.COL_BILL_ID;
+import static com.example.coffeestaff.Data.BillDetails.COL_DRINKS_ID;
+import static com.example.coffeestaff.Data.BillDetails.COL_PRICE;
+import static com.example.coffeestaff.Data.BillDetails.NAME;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,12 +13,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.coffeestaff.Data.DbHelper;
-import com.example.coffeestaff.Data.Models.BillDetails;
+import com.example.coffeestaff.Data.BillDetails;
 
 import java.util.ArrayList;
 
-public class BillDetailsHelper {
-    public static final String NAME = "BillDetails";
+public class BillDetailBussiness {
+    /*public static final String NAME = "BillDetails";
     public static final String COL_BILL_ID = "BillId";
     public static final String COL_DRINKS_ID = "DrinksId";
     public static final String COL_AMOUNT = "Amount";
@@ -25,16 +32,16 @@ public class BillDetailsHelper {
                             "%s Integer," +
                             "%s Integer," +
                             "%s Real);",
-                    NAME, COL_BILL_ID, COL_DRINKS_ID, COL_AMOUNT, COL_PRICE);
+                    NAME, COL_BILL_ID, COL_DRINKS_ID, COL_AMOUNT, COL_PRICE);*/
     private SQLiteDatabase _db;
 
     // Helpers
-    public BillDetailsHelper(Context context) {
+    public BillDetailBussiness(Context context) {
         DbHelper helper = new DbHelper(context);
         _db = helper.getWritableDatabase();
     }
 
-    public BillDetailsHelper(SQLiteDatabase db){
+    public BillDetailBussiness(SQLiteDatabase db){
         _db = db;
     }
 

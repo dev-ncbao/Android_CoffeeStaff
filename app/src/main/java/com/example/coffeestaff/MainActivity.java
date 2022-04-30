@@ -4,16 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.example.coffeestaff.Data.DbHelper;
 import com.example.coffeestaff.Data.DefaultConfig;
-import com.example.coffeestaff.Data.ModelHelper.StaffsHelper;
-import com.example.coffeestaff.Data.Models.Staffs;
-import com.example.coffeestaff.Presentation.ChooseDrinksActivity;
 import com.example.coffeestaff.Presentation.HomeActivity;
-import com.example.coffeestaff.Presentation.LoginActivity;
-import com.example.coffeestaff.Presentation.ServingAcvitity;
 
 import java.util.Timer;
 import java.util.TimerTask;

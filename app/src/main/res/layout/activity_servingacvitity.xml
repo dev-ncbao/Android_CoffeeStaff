@@ -7,7 +7,7 @@
     android:layout_marginHorizontal="28dp"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".Presentation.ServingAcvitity">
+    tools:context=".Presentation.ServingActivity">
 
     <TextView
         android:id="@+id/txtTableId"

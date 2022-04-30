@@ -1,4 +1,11 @@
-package com.example.coffeestaff.Data.ModelHelper;
+package com.example.coffeestaff.Bussiness;
+
+import static com.example.coffeestaff.Data.Drinks.ALL_COL;
+import static com.example.coffeestaff.Data.Drinks.COL_ID;
+import static com.example.coffeestaff.Data.Drinks.COL_IMAGE;
+import static com.example.coffeestaff.Data.Drinks.COL_NAME;
+import static com.example.coffeestaff.Data.Drinks.COL_PRICE;
+import static com.example.coffeestaff.Data.Drinks.NAME;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,36 +13,20 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.coffeestaff.Data.DbHelper;
-import com.example.coffeestaff.Data.Models.Drinks;
-import com.example.coffeestaff.R;
+import com.example.coffeestaff.Data.Drinks;
 
 import java.util.ArrayList;
 
-public class DrinksHelper {
-    public static final String NAME = "Drinks";
-    public static final String COL_ID = "ID";
-    public static final String COL_NAME = "Name";
-    public static final String COL_PRICE = "Price";
-    public static final String COL_IMAGE = "Image";
-    public static final String CREATE =
-            String.format("Create Table %s(" +
-                            "%s Integer Primary Key Autoincrement," +
-                            "%s Text," +
-                            "%s Text," +
-                            "%s Real);",
-                    NAME, COL_ID, COL_NAME, COL_IMAGE, COL_PRICE);
-    public static final String[] ALL_COL = {
-            COL_ID, COL_NAME, COL_PRICE, COL_IMAGE
-    };
+public class DrinkBussiness {
+
     private SQLiteDatabase _db;
 
-    // Helpers
-    public DrinksHelper(Context context) {
+    public DrinkBussiness(Context context) {
         DbHelper helper = new DbHelper(context);
         _db = helper.getWritableDatabase();
     }
 
-    public DrinksHelper(SQLiteDatabase db){
+    public DrinkBussiness(SQLiteDatabase db){
         _db = db;
     }
 

@@ -15,87 +15,71 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.coffeestaff.Bussiness.SignedInBussiness;
+import com.example.coffeestaff.Commons.Models.HomeMenuItem;
+import com.example.coffeestaff.Data.SignedIns;
 import com.example.coffeestaff.R;
 
-public class HomeActivity extends AppCompatActivity {
+import java.util.ArrayList;
 
-    private Integer[] menuIcons = {
-            R.drawable.ic_martini_glass_solid,
-            R.drawable.ic_file_invoice_solid,
-            R.drawable.ic_baseline_amp_stories_24,
-            R.drawable.ic_right_from_bracket_solid
-    };
-    private String[] menuLabels = {
-            "Đặt món",
-            "Hóa đơn",
-            "Danh sách bàn",
-            "Đăng xuất"
-    };
-    private String[] menuIconBackgrounds = {
-            "#16A8EA",
-            "#C99451",
-            "#713800",
-            "#717DD5"
-    };
-    private Intent[] intents = null;
+public class HomeActivity extends AppCompatActivity {
+    private ArrayList<HomeMenuItem> menuItems = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        // initial datas
+        menuItems.add(new HomeMenuItem(R.drawable.ic_martini_glass_solid, "Đặt món", "#16A8EA"));
+        menuItems.add(new HomeMenuItem(R.drawable.ic_file_invoice_solid, "Hóa đơn", "#C99451"));
+        menuItems.add(new HomeMenuItem(R.drawable.ic_baseline_amp_stories_24, "Danh sách bàn", "#713800"));
+        menuItems.add(new HomeMenuItem(R.drawable.ic_right_from_bracket_solid, "Đăng xuất", "#717DD5"));
         //
-        intents = new Intent[]{
-            new Intent(HomeActivity.this, ChooseTableActivity.class),
-                    null,
-                    null
-        };
         GridView gdvMenu = findViewById(R.id.gdvMenu);
-        GridViewAdapter adapter = new GridViewAdapter(menuIcons, menuLabels, menuIconBackgrounds);
+        GridViewAdapter adapter = new GridViewAdapter(menuItems);
         gdvMenu.setAdapter(adapter);
-        gdvMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                HomeActivity.this.startActivity(intents[i]);
+        gdvMenu.setOnItemClickListener((adapterView, view, i, l) -> {
+            Intent intent = null;
+            switch(i){
+                case 0:
+                    intent = new Intent(HomeActivity.this, ChooseTableActivity.class);
+                    break;
+                case 1:
+                    intent = new Intent(HomeActivity.this, BillsActivity.class);
+                    break;
+                case 2:
+                    intent = new Intent(HomeActivity.this, TablesBeingServedActivity.class);
+                    break;
+                case 3:
+                        // remove user signed in
+                        SignedInBussiness signedInHelper = new SignedInBussiness(HomeActivity.this);
+                        SignedIns signedIn = signedInHelper.select();
+                        signedInHelper.delete(signedIn.getStaffId());
+                        intent = new Intent(HomeActivity.this, LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    break;
             }
+            if(intent != null) startActivity(intent);
         });
     }
 
     class GridViewAdapter extends BaseAdapter {
-        private Integer[] icons = null;
-        private String[] labels = null;
-        private String[] iconBackgronuds = null;
+        private ArrayList<HomeMenuItem> menuItems;
 
-        public GridViewAdapter(Integer[] _icons, String[] _labels, String[] _iconBackgrounds) {
-            icons = _icons;
-            labels = _labels;
-            iconBackgronuds = _iconBackgrounds;
+        public GridViewAdapter(ArrayList<HomeMenuItem> menuItems) {
+            this.menuItems = menuItems;
         }
 
-        @Override
-        public int getCount() {
-            return icons.length;
+        public Integer getIcon(int i) {
+            return menuItems.get(i).getIcon();
         }
 
-        @Override
-        public Object getItem(int i) {
-            return null;
+        public String getLabel(int i) {
+            return menuItems.get(i).getLabel();
         }
 
-        public Integer _getIcon(int i) {
-            return icons[i];
-        }
-
-        public String _getBackground(int i){
-            return iconBackgronuds[i];
-        }
-
-        public String _getLabel(int i) {
-            return labels[i];
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return 0;
+        public String getBackgroundColor(int i) {
+            return menuItems.get(i).getBackgroundColor();
         }
 
         @Override
@@ -104,15 +88,34 @@ public class HomeActivity extends AppCompatActivity {
             if (view != null) convertView = view;
             else {
                 convertView = View.inflate(viewGroup.getContext(), R.layout.layout_homemenu, null);
-                ImageView imvIcon = (ImageView) convertView.findViewById(R.id.imvIcon);
-                TextView txtLabel = (TextView) convertView.findViewById(R.id.txtLabel);
-                imvIcon.setImageResource(_getIcon(i));
-                Drawable background = getResources().getDrawable(R.drawable.menu_item_shape);
-                DrawableCompat.setTint(background, Color.parseColor(_getBackground(i)));
-                imvIcon.setBackground(background);
-                txtLabel.setText(_getLabel(i));
             }
+            // get views
+            ImageView imvIcon = convertView.findViewById(R.id.imvIcon);
+            TextView txtLabel = convertView.findViewById(R.id.txtLabel);
+            // update views properties
+            Drawable background = getResources().getDrawable(R.drawable.menu_item_shape);
+            DrawableCompat.setTint(background, Color.parseColor(getBackgroundColor(i)));
+            imvIcon.setImageResource(getIcon(i));
+            imvIcon.setBackground(background);
+
+            txtLabel.setText(getLabel(i));
+
             return convertView;
+        }
+
+        @Override
+        public int getCount() {
+            return menuItems.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
         }
     }
 }

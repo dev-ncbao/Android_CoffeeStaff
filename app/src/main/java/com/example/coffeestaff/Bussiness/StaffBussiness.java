@@ -1,4 +1,11 @@
-package com.example.coffeestaff.Data.ModelHelper;
+package com.example.coffeestaff.Bussiness;
+
+import static com.example.coffeestaff.Data.Staffs.ALL_COL;
+import static com.example.coffeestaff.Data.Staffs.COL_ID;
+import static com.example.coffeestaff.Data.Staffs.COL_NAME;
+import static com.example.coffeestaff.Data.Staffs.COL_PASSWORD;
+import static com.example.coffeestaff.Data.Staffs.COL_USERNAME;
+import static com.example.coffeestaff.Data.Staffs.NAME;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,10 +13,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.coffeestaff.Data.DbHelper;
-import com.example.coffeestaff.Data.Models.Staffs;
+import com.example.coffeestaff.Data.Staffs;
 
-public class StaffsHelper {
-    public static final String NAME = "Staffs";
+public class StaffBussiness {
+    /*public static final String NAME = "Staffs";
     public static final String COL_ID = "ID";
     public static final String COL_NAME = "Name";
     public static final String COL_USERNAME = "Username";
@@ -24,15 +31,15 @@ public class StaffsHelper {
                     "%s Text," +
                     "%s Text);",
                     NAME, COL_ID, COL_NAME, COL_USERNAME, COL_PASSWORD);
-
+*/
     private SQLiteDatabase _db;
     // Helpers
-    public StaffsHelper(Context context) {
+    public StaffBussiness(Context context) {
         DbHelper helper = new DbHelper(context);
         _db = helper.getWritableDatabase();
     }
 
-    public StaffsHelper(SQLiteDatabase db){
+    public StaffBussiness(SQLiteDatabase db){
         _db = db;
     }
 

@@ -1,6 +1,5 @@
 package com.example.coffeestaff.Presentation;
 
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.NonNull;
@@ -21,41 +20,36 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.coffeestaff.Data.CommonModels.DrinkOrders;
-import com.example.coffeestaff.Data.ModelHelper.BillDetailsHelper;
-import com.example.coffeestaff.Data.ModelHelper.BillsHelper;
-import com.example.coffeestaff.Data.ModelHelper.DrinksHelper;
-import com.example.coffeestaff.Data.ModelHelper.SignedInHelper;
-import com.example.coffeestaff.Data.ModelHelper.TablesHelper;
-import com.example.coffeestaff.Data.Models.BillDetails;
-import com.example.coffeestaff.Data.Models.Bills;
-import com.example.coffeestaff.Data.Models.SignedIn;
-import com.example.coffeestaff.Data.Models.Tables;
+import com.example.coffeestaff.Bussiness.BussinessDistribution;
+import com.example.coffeestaff.Commons.Models.Order;
+import com.example.coffeestaff.Bussiness.BillDetailBussiness;
+import com.example.coffeestaff.Bussiness.BillBussiness;
+import com.example.coffeestaff.Bussiness.DrinkBussiness;
+import com.example.coffeestaff.Bussiness.SignedInBussiness;
+import com.example.coffeestaff.Bussiness.TableBussiness;
+import com.example.coffeestaff.Data.BillDetails;
+import com.example.coffeestaff.Data.Bills;
+import com.example.coffeestaff.Data.SignedIns;
+import com.example.coffeestaff.Data.Tables;
 import com.example.coffeestaff.R;
 import com.google.gson.Gson;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.function.Consumer;
 
 public class ChooseTableActivity extends AppCompatActivity {
     private ArrayList<Tables> tables;
-    private String colorServing = "#16a8ea";
-    private String colorEmpty = "#849BA2";
     private Integer choosedTable = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choosetable);
-        //
-        TablesHelper tablesHelper = new TablesHelper(this);
-        tables = tablesHelper.selectAll();
-        GridViewAdapter adapter = new GridViewAdapter(tables);
-        GridView gdvTable = findViewById(R.id.gdvTable);
-        Button btnCancel = findViewById(R.id.btnCancel);
-        //
+        // declare
+        BussinessDistribution bussinessDistribution = new BussinessDistribution(this);
+        TableBussiness tableBussiness = bussinessDistribution.getTableBussiness();
+        // register activity for result
         ActivityResultLauncher<Intent> chooseDrinkLauncher = registerForActivityResult(
                 new ActivityResultContract<Intent, ArrayList<String>>() {
                     @NonNull
@@ -82,25 +76,31 @@ public class ChooseTableActivity extends AppCompatActivity {
                     if (result != null) {
                         Gson gson = new Gson();
                         Tables table = tables.get(choosedTable);
-                        SignedInHelper signedInHelper = new SignedInHelper(ChooseTableActivity.this);
-                        BillsHelper billsHelper = new BillsHelper(ChooseTableActivity.this);
-                        BillDetailsHelper billDetailsHelper = new BillDetailsHelper(ChooseTableActivity.this);
-                        DrinksHelper drinksHelper = new DrinksHelper(ChooseTableActivity.this);
+                        SignedInBussiness signedInHelper = new SignedInBussiness(ChooseTableActivity.this);
+                        BillBussiness billsHelper = new BillBussiness(ChooseTableActivity.this);
+                        BillDetailBussiness billDetailsHelper = new BillDetailBussiness(ChooseTableActivity.this);
+                        DrinkBussiness drinksHelper = new DrinkBussiness(ChooseTableActivity.this);
                         table.setStatus(1);
                         tables.get(choosedTable).setStatus(1);
                         adapter.update(tables);
-                        SignedIn signedIn = signedInHelper.select();
-                        Bills bill = new Bills(0, choosedTable, signedIn.getStaffId(), DateFormat.getDateTimeInstance().format(new Date()), 0);
+                        SignedIns signedIn = signedInHelper.select();
+                        Bills bill = new Bills(0, table.getId(), signedIn.getStaffId(), DateFormat.getDateTimeInstance().format(new Date()), 0);
                         Long billId = billsHelper.insert(bill);
-                        tablesHelper.updateStatus(table);
+                        tableBussiness.updateStatus(table);
+                        Log.i("result-bill", billId.toString());
                         for (int i = 0; i < result.size(); i++) {
-                            DrinkOrders order = gson.fromJson(result.get(i), DrinkOrders.class);
+                            Order order = gson.fromJson(result.get(i), Order.class);
                             BillDetails billDetail = new BillDetails(billId.intValue(), order.getDrinkId(), order.getAmount(), drinksHelper.select(order.getDrinkId()).getPrice());
                             billDetailsHelper.insert(billDetail);
                         }
                     }
                 });
-        //
+        // get views
+        GridView gdvTable = findViewById(R.id.gdvTable);
+        Button btnCancel = findViewById(R.id.btnCancel);
+        // set grid view adapter
+        tables = tableBussiness.selectAll();
+        GridViewAdapter adapter = new GridViewAdapter(tables);
         gdvTable.setAdapter(adapter);
         gdvTable.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -123,28 +123,28 @@ public class ChooseTableActivity extends AppCompatActivity {
     }
 
     class GridViewAdapter extends BaseAdapter {
-        private ArrayList<Tables> _tables;
+        private ArrayList<Tables> tables;
 
         public GridViewAdapter(ArrayList<Tables> tables) {
-            _tables = tables;
+            this.tables = tables;
         }
 
         public void update(ArrayList<Tables> tables) {
-            _tables = tables;
+            this.tables = tables;
             notifyDataSetChanged();
+        }
+
+        public Integer getStatus(int i){
+            return tables.get(i).getStatus();
+        }
+
+        public Integer getId(int i){
+            return tables.get(i).getId();
         }
 
         @Override
         public int getCount() {
-            return _tables.size();
-        }
-
-        public int getId(int i) {
-            return _tables.get(i).getId();
-        }
-
-        public int getStatus(int i) {
-            return _tables.get(i).getStatus();
+            return tables.size();
         }
 
         @Override
@@ -164,12 +164,14 @@ public class ChooseTableActivity extends AppCompatActivity {
             else {
                 convertView = View.inflate(viewGroup.getContext(), R.layout.layout_tablelist, null);
             }
+            // get views
             TextView txtLabel = convertView.findViewById(R.id.txtLabel);
             TextView txtContainer = convertView.findViewById(R.id.txtContainer);
+            // update views properties
             if (getStatus(i) == 0) {
-                txtContainer.setBackgroundColor(Color.parseColor(colorEmpty));
-            } else txtContainer.setBackgroundColor(Color.parseColor(colorServing));
-            txtLabel.setText(getId(i) + "");
+                txtContainer.setBackgroundColor(getResources().getColor(R.color.grey1));
+            } else txtContainer.setBackgroundColor(getResources().getColor(R.color.primary));
+            txtLabel.setText(getId(i).toString());
             return convertView;
         }
     }

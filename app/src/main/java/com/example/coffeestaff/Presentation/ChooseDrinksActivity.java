@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -15,20 +14,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.coffeestaff.Data.CommonModels.DrinkOrders;
-import com.example.coffeestaff.Data.ModelHelper.DrinksHelper;
-import com.example.coffeestaff.Data.Models.Drinks;
+import com.example.coffeestaff.Commons.Models.Order;
+import com.example.coffeestaff.Bussiness.DrinkBussiness;
+import com.example.coffeestaff.Data.Drinks;
 import com.example.coffeestaff.R;
 import com.google.gson.Gson;
 
-import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.Enumeration;
-import java.util.HashSet;
 import java.util.Locale;
-import java.util.Map;
 
 public class ChooseDrinksActivity extends AppCompatActivity {
     private ArrayList<Drinks> _drinks;
@@ -42,7 +36,7 @@ public class ChooseDrinksActivity extends AppCompatActivity {
         Button btnConfirm = findViewById(R.id.btnConfirm);
         Button btnBack = findViewById(R.id.btnBack);
         //
-        DrinksHelper drinksHelper = new DrinksHelper(this);
+        DrinkBussiness drinksHelper = new DrinkBussiness(this);
         _drinks = drinksHelper.selectAll();
         ListViewAdapter adapter = new ListViewAdapter(_drinks);
         lsvDrink.setAdapter(adapter);
@@ -53,7 +47,7 @@ public class ChooseDrinksActivity extends AppCompatActivity {
         btnConfirm.setOnClickListener(view -> {
             Intent intent = new Intent();
             Bundle bundle = new Bundle();
-            ArrayList<DrinkOrders> orders = adapter.getOrders();
+            ArrayList<Order> orders = adapter.getOrders();
             if (orders.size() > 0) {
                 ArrayList<String> ordersSerialize = new ArrayList<>();
                 Gson gson = new Gson();
@@ -102,11 +96,11 @@ public class ChooseDrinksActivity extends AppCompatActivity {
             return _drinks.get(i).getImage();
         }
 
-        public ArrayList<DrinkOrders> getOrders() {
-            ArrayList<DrinkOrders> orders = new ArrayList<>();
+        public ArrayList<Order> getOrders() {
+            ArrayList<Order> orders = new ArrayList<>();
             for (int i = 0; i < _drinks.size(); i++) {
                 if (_amounts.get(i) > 0)
-                    orders.add(new DrinkOrders(_drinks.get(i).getId(), _amounts.get(i)));
+                    orders.add(new Order(_drinks.get(i).getId(), _amounts.get(i)));
             }
             return orders;
         }
