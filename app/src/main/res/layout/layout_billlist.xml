@@ -1,19 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableRow xmlns:android="http://schemas.android.com/apk/res/android">
+<TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:shrinkColumns="0, 2"
+    android:stretchColumns="1">
+    <TableRow
+        android:paddingVertical="20dp">
 
-    <TextView
-        android:id="@+id/txtSTT"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content" />
+        <TextView
+            android:id="@+id/txtBillId"
+            android:layout_height="wrap_content"
+            android:layout_width="80dp"
+            android:textColor="@color/textDark"
+            android:textSize="16dp"
+            android:paddingHorizontal="10dp"
+            android:textAlignment="textStart"/>
 
-    <TextView
-        android:id="@+id/txtBillId"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content" />
+        <TextView
+            android:id="@+id/txtDateCreated"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textColor="@color/textDark"
+            android:textSize="16dp"
+            android:paddingHorizontal="10dp"
+            android:textAlignment="textStart"/>
 
-    <TextView
-        android:id="@+id/txtTimeCreated"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content" />
+        <TextView
+            android:id="@+id/txtTimeCreated"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textColor="@color/textDark"
+            android:textSize="16dp"
+            android:paddingHorizontal="10dp"
+            android:textAlignment="textEnd"/>
 
-</TableRow>
+    </TableRow>
+</TableLayout>

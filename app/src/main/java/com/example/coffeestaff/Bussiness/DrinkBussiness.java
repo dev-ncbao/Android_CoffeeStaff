@@ -1,11 +1,11 @@
 package com.example.coffeestaff.Bussiness;
 
-import static com.example.coffeestaff.Data.Drinks.ALL_COL;
-import static com.example.coffeestaff.Data.Drinks.COL_ID;
-import static com.example.coffeestaff.Data.Drinks.COL_IMAGE;
-import static com.example.coffeestaff.Data.Drinks.COL_NAME;
-import static com.example.coffeestaff.Data.Drinks.COL_PRICE;
-import static com.example.coffeestaff.Data.Drinks.NAME;
+import static com.example.coffeestaff.Commons.Constants.DrinkConstants.ALL_COL;
+import static com.example.coffeestaff.Commons.Constants.DrinkConstants.COL_ID;
+import static com.example.coffeestaff.Commons.Constants.DrinkConstants.COL_IMAGE;
+import static com.example.coffeestaff.Commons.Constants.DrinkConstants.COL_NAME;
+import static com.example.coffeestaff.Commons.Constants.DrinkConstants.COL_PRICE;
+import static com.example.coffeestaff.Commons.Constants.DrinkConstants.NAME;
 
 import android.content.ContentValues;
 import android.content.Context;

@@ -1,11 +1,11 @@
 package com.example.coffeestaff.Bussiness;
 
-import static com.example.coffeestaff.Data.BillDetails.ALL_COL;
-import static com.example.coffeestaff.Data.BillDetails.COL_AMOUNT;
-import static com.example.coffeestaff.Data.BillDetails.COL_BILL_ID;
-import static com.example.coffeestaff.Data.BillDetails.COL_DRINKS_ID;
-import static com.example.coffeestaff.Data.BillDetails.COL_PRICE;
-import static com.example.coffeestaff.Data.BillDetails.NAME;
+import static com.example.coffeestaff.Commons.Constants.BillDetailConstants.ALL_COL;
+import static com.example.coffeestaff.Commons.Constants.BillDetailConstants.COL_AMOUNT;
+import static com.example.coffeestaff.Commons.Constants.BillDetailConstants.COL_BILL_ID;
+import static com.example.coffeestaff.Commons.Constants.BillDetailConstants.COL_DRINKS_ID;
+import static com.example.coffeestaff.Commons.Constants.BillDetailConstants.COL_PRICE;
+import static com.example.coffeestaff.Commons.Constants.BillDetailConstants.NAME;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -18,21 +18,6 @@ import com.example.coffeestaff.Data.BillDetails;
 import java.util.ArrayList;
 
 public class BillDetailBussiness {
-    /*public static final String NAME = "BillDetails";
-    public static final String COL_BILL_ID = "BillId";
-    public static final String COL_DRINKS_ID = "DrinksId";
-    public static final String COL_AMOUNT = "Amount";
-    public static final String COL_PRICE = "Price";
-    public static final String[] ALL_COL = {
-            COL_BILL_ID, COL_DRINKS_ID, COL_AMOUNT, COL_PRICE
-    };
-    public static final String CREATE =
-            String.format("Create Table %s(" +
-                            "%s Integer," +
-                            "%s Integer," +
-                            "%s Integer," +
-                            "%s Real);",
-                    NAME, COL_BILL_ID, COL_DRINKS_ID, COL_AMOUNT, COL_PRICE);*/
     private SQLiteDatabase _db;
 
     // Helpers

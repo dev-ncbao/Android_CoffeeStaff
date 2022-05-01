@@ -9,11 +9,12 @@
         <entry key="..\:/IT_workspace/Curremt_Semeter/Android/Homework/CoffeeStaff/app/src/main/res/drawable/ic_minus_solid.xml" value="0.157" />
         <entry key="..\:/IT_workspace/Curremt_Semeter/Android/Homework/CoffeeStaff/app/src/main/res/drawable/ic_plus_solid.xml" value="0.157" />
         <entry key="..\:/IT_workspace/Curremt_Semeter/Android/Homework/CoffeeStaff/app/src/main/res/drawable/ic_right_from_bracket_solid.xml" value="0.1565" />
-        <entry key="..\:/IT_workspace/Curremt_Semeter/Android/Homework/CoffeeStaff/app/src/main/res/layout/activity_bills.xml" value="0.1109375" />
-        <entry key="..\:/IT_workspace/Curremt_Semeter/Android/Homework/CoffeeStaff/app/src/main/res/layout/activity_choosedrinks.xml" value="0.1390625" />
+        <entry key="..\:/IT_workspace/Curremt_Semeter/Android/Homework/CoffeeStaff/app/src/main/res/layout/activity_billdetail.xml" value="0.264" />
+        <entry key="..\:/IT_workspace/Curremt_Semeter/Android/Homework/CoffeeStaff/app/src/main/res/layout/activity_bills.xml" value="0.22794117647058823" />
+        <entry key="..\:/IT_workspace/Curremt_Semeter/Android/Homework/CoffeeStaff/app/src/main/res/layout/activity_choosedrinks.xml" value="0.264" />
         <entry key="..\:/IT_workspace/Curremt_Semeter/Android/Homework/CoffeeStaff/app/src/main/res/layout/activity_choosetable.xml" value="0.2526041666666667" />
         <entry key="..\:/IT_workspace/Curremt_Semeter/Android/Homework/CoffeeStaff/app/src/main/res/layout/activity_home.xml" value="0.2" />
-        <entry key="..\:/IT_workspace/Curremt_Semeter/Android/Homework/CoffeeStaff/app/src/main/res/layout/activity_login.xml" value="0.22826086956521738" />
+        <entry key="..\:/IT_workspace/Curremt_Semeter/Android/Homework/CoffeeStaff/app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="..\:/IT_workspace/Curremt_Semeter/Android/Homework/CoffeeStaff/app/src/main/res/layout/activity_main.xml" value="0.11145833333333334" />
         <entry key="..\:/IT_workspace/Curremt_Semeter/Android/Homework/CoffeeStaff/app/src/main/res/layout/activity_order.xml" value="0.1390625" />
         <entry key="..\:/IT_workspace/Curremt_Semeter/Android/Homework/CoffeeStaff/app/src/main/res/layout/activity_servingacvitity.xml" value="0.2526041666666667" />

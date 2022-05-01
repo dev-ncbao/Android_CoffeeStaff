@@ -8,9 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -21,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.coffeestaff.Bussiness.BussinessDistribution;
+import com.example.coffeestaff.Commons.Helpers.ConvertDateTime;
 import com.example.coffeestaff.Commons.Models.Order;
 import com.example.coffeestaff.Bussiness.BillDetailBussiness;
 import com.example.coffeestaff.Bussiness.BillBussiness;
@@ -32,9 +31,8 @@ import com.example.coffeestaff.Data.Bills;
 import com.example.coffeestaff.Data.SignedIns;
 import com.example.coffeestaff.Data.Tables;
 import com.example.coffeestaff.R;
-import com.google.gson.Gson;
 
-import java.text.DateFormat;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -49,68 +47,28 @@ public class ChooseTableActivity extends AppCompatActivity {
         // declare
         BussinessDistribution bussinessDistribution = new BussinessDistribution(this);
         TableBussiness tableBussiness = bussinessDistribution.getTableBussiness();
-        // register activity for result
-        ActivityResultLauncher<Intent> chooseDrinkLauncher = registerForActivityResult(
-                new ActivityResultContract<Intent, ArrayList<String>>() {
-                    @NonNull
-                    @Override
-                    public Intent createIntent(@NonNull Context context, Intent input) {
-                        return input;
-                    }
-
-                    @Override
-                    public ArrayList<String> parseResult(int resultCode, @Nullable Intent intent) {
-                        switch (resultCode) {
-                            case RESULT_CANCELED:
-                                return null;
-                            case RESULT_OK: {
-                                Bundle bundle = intent.getBundleExtra("orders-result");
-                                return bundle.getStringArrayList("orders");
-                            }
-                            default:
-                                return null;
-                        }
-                    }
-                },
-                result -> {
-                    if (result != null) {
-                        Gson gson = new Gson();
-                        Tables table = tables.get(choosedTable);
-                        SignedInBussiness signedInHelper = new SignedInBussiness(ChooseTableActivity.this);
-                        BillBussiness billsHelper = new BillBussiness(ChooseTableActivity.this);
-                        BillDetailBussiness billDetailsHelper = new BillDetailBussiness(ChooseTableActivity.this);
-                        DrinkBussiness drinksHelper = new DrinkBussiness(ChooseTableActivity.this);
-                        table.setStatus(1);
-                        tables.get(choosedTable).setStatus(1);
-                        adapter.update(tables);
-                        SignedIns signedIn = signedInHelper.select();
-                        Bills bill = new Bills(0, table.getId(), signedIn.getStaffId(), DateFormat.getDateTimeInstance().format(new Date()), 0);
-                        Long billId = billsHelper.insert(bill);
-                        tableBussiness.updateStatus(table);
-                        Log.i("result-bill", billId.toString());
-                        for (int i = 0; i < result.size(); i++) {
-                            Order order = gson.fromJson(result.get(i), Order.class);
-                            BillDetails billDetail = new BillDetails(billId.intValue(), order.getDrinkId(), order.getAmount(), drinksHelper.select(order.getDrinkId()).getPrice());
-                            billDetailsHelper.insert(billDetail);
-                        }
-                    }
-                });
         // get views
         GridView gdvTable = findViewById(R.id.gdvTable);
         Button btnCancel = findViewById(R.id.btnCancel);
         // set grid view adapter
         tables = tableBussiness.selectAll();
         GridViewAdapter adapter = new GridViewAdapter(tables);
+        // register activity for result
+        ActivityResultLauncher<Intent> chooseDrinksLauncher = registerForChooseDrink(adapter);
+        ActivityResultLauncher<Intent> servingDetailLauncher = registerForServingDetail(adapter);
         gdvTable.setAdapter(adapter);
         gdvTable.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                choosedTable = i;
                 if (tables.get(i).getStatus() == 0) {
-                    choosedTable = i;
                     Intent intent = new Intent(ChooseTableActivity.this, ChooseDrinksActivity.class);
-                    chooseDrinkLauncher.launch(intent);
-                } else
-                    Toast.makeText(ChooseTableActivity.this, String.format("%s đang phục vụ khách hàng", tables.get(i).getName()), Toast.LENGTH_SHORT).show();
+                    chooseDrinksLauncher.launch(intent);
+                } else {
+                    Intent intent = new Intent(ChooseTableActivity.this, ServingDetailActivity.class);
+                    intent.putExtra("table", tables.get(i).getId());
+                    servingDetailLauncher.launch(intent);
+                }
             }
         });
         //
@@ -120,6 +78,82 @@ public class ChooseTableActivity extends AppCompatActivity {
                 ChooseTableActivity.this.finish();
             }
         });
+    }
+
+    private ActivityResultLauncher<Intent> registerForServingDetail(GridViewAdapter adapter){
+        ActivityResultLauncher<Intent> servingDetailLauncher = registerForActivityResult(
+                new ActivityResultContract<Intent, Integer>() {
+                    @NonNull
+                    @Override
+                    public Intent createIntent(@NonNull Context context, Intent input) {
+                        return input;
+                    }
+
+                    @Override
+                    public Integer parseResult(int resultCode, @Nullable Intent intent) {
+                        return resultCode;
+                    }
+                },
+                result -> {
+                    if (result == RESULT_OK)
+                    {
+                        tables.get(choosedTable).setStatus(0);
+                        adapter.update(tables);
+                    }
+                });
+        return servingDetailLauncher;
+    }
+
+    private ActivityResultLauncher<Intent> registerForChooseDrink(GridViewAdapter adapter) {
+        ActivityResultLauncher<Intent> launcher = registerForActivityResult(
+                new ActivityResultContract<Intent, Serializable>() {
+                    @NonNull
+                    @Override
+                    public Intent createIntent(@NonNull Context context, Intent input) {
+                        return input;
+                    }
+
+                    @Override
+                    public Serializable parseResult(int resultCode, @Nullable Intent intent) {
+                        switch (resultCode) {
+                            case RESULT_CANCELED:
+                                return null;
+                            case RESULT_OK: {
+                                Bundle bundle = intent.getBundleExtra("orders-result");
+                                return bundle.getSerializable("orders");
+                            }
+                            default:
+                                return null;
+                        }
+                    }
+                },
+                result -> {
+                    if (result != null) {
+                        ArrayList<Order> orders = (ArrayList<Order>) result;
+                        BussinessDistribution bussinessDistribution = new BussinessDistribution(ChooseTableActivity.this);
+                        SignedInBussiness signedInBussiness = bussinessDistribution.getSignedInBussiness();
+                        BillBussiness billsBussiness = bussinessDistribution.getBillBussiness();
+                        BillDetailBussiness billDetailsBussiness = bussinessDistribution.getBillDetailBussiness();
+                        DrinkBussiness drinksBussiness = bussinessDistribution.getDrinkBussiness();
+                        TableBussiness tableBussiness = bussinessDistribution.getTableBussiness();
+                        SignedIns signedIn = signedInBussiness.select();
+                        tables.get(choosedTable).setStatus(1);
+                        // update view
+                        adapter.update(tables);
+                        // insert new bill
+                        Bills bill = new Bills(0, tables.get(choosedTable).getId(), signedIn.getStaffId(), ConvertDateTime.convert(new Date()), 0);
+                        Long billId = billsBussiness.insert(bill);
+                        // update table status
+                        tableBussiness.updateStatus(tables.get(choosedTable));
+                        // insert bill detail
+                        for (int i = 0; i < orders.size(); i++) {
+                            Order order = orders.get(i);
+                            BillDetails billDetail = new BillDetails(billId.intValue(), order.getDrinkId(), order.getAmount(), drinksBussiness.select(order.getDrinkId()).getPrice());
+                            billDetailsBussiness.insert(billDetail);
+                        }
+                    }
+                });
+        return launcher;
     }
 
     class GridViewAdapter extends BaseAdapter {
@@ -134,11 +168,11 @@ public class ChooseTableActivity extends AppCompatActivity {
             notifyDataSetChanged();
         }
 
-        public Integer getStatus(int i){
+        public Integer getStatus(int i) {
             return tables.get(i).getStatus();
         }
 
-        public Integer getId(int i){
+        public Integer getId(int i) {
             return tables.get(i).getId();
         }
 
@@ -169,7 +203,7 @@ public class ChooseTableActivity extends AppCompatActivity {
             TextView txtContainer = convertView.findViewById(R.id.txtContainer);
             // update views properties
             if (getStatus(i) == 0) {
-                txtContainer.setBackgroundColor(getResources().getColor(R.color.grey1));
+                txtContainer.setBackgroundColor(getResources().getColor(R.color.grey2));
             } else txtContainer.setBackgroundColor(getResources().getColor(R.color.primary));
             txtLabel.setText(getId(i).toString());
             return convertView;

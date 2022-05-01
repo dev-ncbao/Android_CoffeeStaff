@@ -7,91 +7,153 @@
     android:layout_marginHorizontal="28dp"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".Presentation.ServingActivity">
+    tools:context=".Presentation.ServingDetailActivity">
 
     <TextView
         android:id="@+id/txtTableId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="40dp"
+        android:paddingTop="25dp"
+        android:paddingBottom="15dp"
+        android:textColor="@color/primary"
         android:text="Bàn "
         android:textAlignment="center"
-        android:textSize="20dp"
+        android:textSize="18dp"
         android:textStyle="bold" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/txtAmount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Số lượng: "
-            android:textSize="17dp" />
-
-        <TextView
-            android:id="@+id/txtTotalPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Tổng số tiền: "
-            android:textSize="17dp" />
-
-    </LinearLayout>
 
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_marginTop="10dp">
+        android:stretchColumns="1">
 
         <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:paddingVertical="10dp">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:text="STT"
                 android:textSize="16dp"
-                android:paddingRight="10dp"/>
+                android:paddingHorizontal="10dp"
+                android:textStyle="bold"
+                android:textColor="@color/grey4" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Thức uống"
                 android:textSize="16dp"
-                android:layout_weight="1" />
+                android:paddingHorizontal="10dp"
+                android:textStyle="bold"
+                android:textColor="@color/grey4"/>
 
             <TextView
                 android:paddingLeft="10dp"
-                android:layout_width="wrap_content"
+                android:layout_width="90dp"
                 android:layout_height="wrap_content"
                 android:text="Số lượng"
-                android:textSize="16dp" />
+                android:textSize="16dp"
+                android:paddingHorizontal="10dp"
+                android:textStyle="bold"
+                android:textColor="@color/grey4"
+                android:textAlignment="textEnd"/>
         </TableRow>
-
-        <ListView
-            android:id="@+id/lsvOrdered"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
     </TableLayout>
 
-    <Button
-        android:id="@+id/btnCalculated"
+    <ListView
+        android:id="@+id/lsvOrdered"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="12dp"
-        android:backgroundTint="#16a8ea"
-        android:letterSpacing="0"
-        android:paddingVertical="10dp"
-        android:text="Tính tiền"
-        android:textAllCaps="false"
-        android:textColor="#fff"
-        android:textSize="18dp"
-        android:textStyle="bold" />
+        android:layout_weight="1"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingVertical="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="3dp"
+                android:text="Số lượng: "
+                android:textSize="17dp" />
+
+            <TextView
+                android:id="@+id/txtAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="3dp"
+                android:text=""
+                android:textStyle="bold"
+                android:textColor="@color/grey4"
+                android:textSize="17dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="3dp"
+                android:text="Tổng số tiền: "
+                android:textSize="17dp" />
+
+            <TextView
+                android:layout_marginVertical="3dp"
+                android:id="@+id/txtTotalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textStyle="bold"
+                android:textColor="@color/danger"
+                android:textSize="17dp" />
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:paddingVertical="10dp">
+
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/backgroundLight"
+            android:letterSpacing="0"
+            android:paddingVertical="10dp"
+            android:text="Trở lại"
+            android:textAllCaps="false"
+            android:textColor="@color/secondary"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:layout_marginHorizontal="10dp"/>
+
+        <Button
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:id="@+id/btnCalculate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/primary"
+            android:letterSpacing="0"
+            android:paddingVertical="10dp"
+            android:text="Tính tiền"
+            android:textAllCaps="false"
+            android:textColor="@color/textLight"
+            android:textSize="18dp"
+            android:layout_marginHorizontal="10dp"/>
+    </LinearLayout>
 
 </LinearLayout>

@@ -10,13 +10,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
         <activity
+            android:name=".Presentation.BillDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".Presentation.TablesBeingServedActivity"
             android:exported="false" />
         <activity
             android:name=".Presentation.BillsActivity"
             android:exported="false" />
         <activity
-            android:name=".Presentation.ServingActivity"
+            android:name=".Presentation.ServingDetailActivity"
             android:exported="false" />
         <activity
             android:name=".Presentation.ChooseDrinksActivity"

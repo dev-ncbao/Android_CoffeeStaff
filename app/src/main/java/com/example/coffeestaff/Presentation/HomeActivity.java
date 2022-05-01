@@ -15,9 +15,12 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.coffeestaff.Bussiness.BussinessDistribution;
 import com.example.coffeestaff.Bussiness.SignedInBussiness;
+import com.example.coffeestaff.Bussiness.StaffBussiness;
 import com.example.coffeestaff.Commons.Models.HomeMenuItem;
 import com.example.coffeestaff.Data.SignedIns;
+import com.example.coffeestaff.Data.Staffs;
 import com.example.coffeestaff.R;
 
 import java.util.ArrayList;
@@ -32,15 +35,20 @@ public class HomeActivity extends AppCompatActivity {
         // initial datas
         menuItems.add(new HomeMenuItem(R.drawable.ic_martini_glass_solid, "Đặt món", "#16A8EA"));
         menuItems.add(new HomeMenuItem(R.drawable.ic_file_invoice_solid, "Hóa đơn", "#C99451"));
-        menuItems.add(new HomeMenuItem(R.drawable.ic_baseline_amp_stories_24, "Danh sách bàn", "#713800"));
+        menuItems.add(new HomeMenuItem(R.drawable.ic_baseline_amp_stories_24, "Bàn đang phục vụ", "#713800"));
         menuItems.add(new HomeMenuItem(R.drawable.ic_right_from_bracket_solid, "Đăng xuất", "#717DD5"));
-        //
+        // declare
+        BussinessDistribution bd = new BussinessDistribution(this);
+        SignedInBussiness signedInBussiness = bd.getSignedInBussiness();
+        StaffBussiness staffBussiness = bd.getStaffBussiness();
+        // get views
+        TextView txtWelcome = findViewById(R.id.txtWelcome);
         GridView gdvMenu = findViewById(R.id.gdvMenu);
         GridViewAdapter adapter = new GridViewAdapter(menuItems);
         gdvMenu.setAdapter(adapter);
         gdvMenu.setOnItemClickListener((adapterView, view, i, l) -> {
             Intent intent = null;
-            switch(i){
+            switch (i) {
                 case 0:
                     intent = new Intent(HomeActivity.this, ChooseTableActivity.class);
                     break;
@@ -51,16 +59,19 @@ public class HomeActivity extends AppCompatActivity {
                     intent = new Intent(HomeActivity.this, TablesBeingServedActivity.class);
                     break;
                 case 3:
-                        // remove user signed in
-                        SignedInBussiness signedInHelper = new SignedInBussiness(HomeActivity.this);
-                        SignedIns signedIn = signedInHelper.select();
-                        signedInHelper.delete(signedIn.getStaffId());
-                        intent = new Intent(HomeActivity.this, LoginActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    // remove user signed in
+                    SignedIns signedIns = signedInBussiness.select();
+                    signedInBussiness.delete(signedIns.getStaffId());
+                    intent = new Intent(HomeActivity.this, LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     break;
             }
-            if(intent != null) startActivity(intent);
+            if (intent != null) startActivity(intent);
         });
+        // set text welcome
+        SignedIns signedIns = signedInBussiness.select();
+        Staffs staff = staffBussiness.select(signedIns.getStaffId());
+        txtWelcome.setText(txtWelcome.getText().toString() + staff.getName());
     }
 
     class GridViewAdapter extends BaseAdapter {

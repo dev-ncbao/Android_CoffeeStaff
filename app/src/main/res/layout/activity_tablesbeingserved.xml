@@ -12,22 +12,25 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
+        android:textSize="18dp"
         android:textAlignment="center"
         android:text="Đang phục vụ"
         android:textStyle="bold"
-        android:paddingVertical="40dp"/>
+        android:paddingTop="25dp"
+        android:paddingBottom="15dp"
+        android:textColor="@color/primary"/>
 
     <TextView
         android:id="@+id/txtEmpty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
+        android:textSize="18dp"
         android:text="Tất cả bàn đều trống"
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:paddingBottom="50dp"
-        android:visibility="visible"/>
+        android:visibility="visible"
+        android:textColor="@color/grey4"/>
 
     <GridView
         android:id="@+id/gdvTable"
@@ -38,7 +41,7 @@
         android:visibility="gone"/>
 
     <Button
-        android:id="@+id/btnCancel"
+        android:id="@+id/btnBack"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Trở lại"
@@ -48,7 +51,7 @@
         android:textAllCaps="false"
         android:textStyle="bold"
         android:letterSpacing="0"
-        android:backgroundTint="#16a8ea"
-        android:textColor="#fff" />
+        android:backgroundTint="@color/primary"
+        android:textColor="@color/textLight" />
 
 </LinearLayout>

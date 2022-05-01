@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="36dp"
-            android:textColor="#16a8ea"
+            android:textColor="@color/primary"
             android:textStyle="bold"
             android:text="Coffee Staff"
             android:layout_marginBottom="30dp"/>
@@ -27,9 +27,9 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:hintTextColor="#16a8ea"
-            app:placeholderTextColor="#16a8ea"
-            app:boxStrokeColor="#16a8ea"
+            app:hintTextColor="@color/primary"
+            app:placeholderTextColor="@color/primary"
+            app:boxStrokeColor="@color/primary"
             android:layout_marginVertical="7dp">
             <EditText
                 android:id="@+id/edtUsername"
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Tên đăng nhập"
                 android:textSize="18dp"
-                android:textColor="#000"
+                android:textColor="@color/textDark"
                 android:background="#fff"
                 android:textCursorDrawable="@drawable/cursor_color" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -45,9 +45,9 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:hintTextColor="#16a8ea"
-            app:placeholderTextColor="#16a8ea"
-            app:boxStrokeColor="#16a8ea"
+            app:hintTextColor="@color/primary"
+            app:placeholderTextColor="@color/primary"
+            app:boxStrokeColor="@color/primary"
             android:layout_marginVertical="7dp">
             <EditText
                 android:id="@+id/edtPassword"
@@ -55,7 +55,8 @@
                 android:layout_height="wrap_content"
                 android:hint="Mật khẩu"
                 android:textSize="18dp"
-                android:textColor="#000"
+                android:inputType="textPassword"
+                android:textColor="@color/textDark"
                 android:background="#fff"
                 android:textCursorDrawable="@drawable/cursor_color" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -71,7 +72,7 @@
             android:textAllCaps="false"
             android:textStyle="bold"
             android:letterSpacing="0"
-            android:backgroundTint="#16a8ea"
+            android:backgroundTint="@color/primary"
             android:textColor="#fff" />
 
     </LinearLayout>

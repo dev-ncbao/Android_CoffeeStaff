@@ -19,14 +19,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="36dp"
-            android:textColor="#16a8ea"
+            android:textColor="@color/primary"
             android:textStyle="bold"
             android:textAlignment="center"
             android:text="Coffee Staff"
-            android:layout_marginTop="150dp"
-            android:layout_marginBottom="250dp"/>
+            android:layout_marginTop="150dp" />
+
+        <TextView
+            android:id="@+id/txtWelcome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textColor="@color/grey4"
+            android:textAlignment="center"
+            android:text="Welcome! "
+            android:paddingVertical="10dp" />
 
         <GridView
+            android:paddingVertical="150dp"
             android:id="@+id/gdvMenu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

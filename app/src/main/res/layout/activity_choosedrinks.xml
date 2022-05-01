@@ -4,118 +4,92 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginHorizontal="16dp"
+    android:layout_marginHorizontal="28dp"
     android:orientation="vertical"
     tools:context=".Presentation.ChooseDrinksActivity">
 
-    <!--<LinearLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="bottom"
-        android:orientation="horizontal">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1">
-
-            <EditText
-                android:id="@+id/edtSearch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#fff"
-                android:hint="Tìm thức uống"
-                android:textColor="#000"
-                android:textCursorDrawable="@drawable/cursor_color"
-                android:textSize="16dp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <Button
-            android:id="@+id/btnSearch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#16a8ea"
-            android:letterSpacing="0"
-            android:paddingVertical="10dp"
-            android:text="Tìm"
-            android:textAllCaps="false"
-            android:textColor="#fff"
-            android:textSize="18dp"
-            android:textStyle="normal" />
-    </LinearLayout>-->
+        android:textSize="18dp"
+        android:textAlignment="center"
+        android:text="Chọn món"
+        android:textStyle="bold"
+        android:paddingTop="25dp"
+        android:paddingBottom="15dp"
+        android:textColor="@color/primary"/>
 
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:paddingVertical="10dp"
-        android:stretchColumns="0">
+        android:stretchColumns="0"
+        android:shrinkColumns="1">
 
-        <TableRow>
-            <!--            <TextView
-                            android:layout_height="wrap_content"
-                            android:layout_width="wrap_content"
-                            android:text="STT"
-                            android:textSize="16dp"
-                            android:textAlignment="center"/>-->
+        <TableRow
+            android:paddingVertical="10dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Thức uống"
-                android:textSize="16dp" />
+                android:textSize="16dp"
+                android:paddingHorizontal="10dp"
+                android:textColor="@color/grey4"
+                android:textStyle="bold"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Số lượng"
-                android:textSize="16dp" />
+                android:textSize="16dp"
+                android:paddingHorizontal="10dp"
+                android:textAlignment="textEnd"
+                android:textColor="@color/grey4"
+                android:textStyle="bold"/>
         </TableRow>
 
+    </TableLayout>
         <ListView
             android:id="@+id/lsvDrinks"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </TableLayout>
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_horizontal"
-        android:paddingVertical="10dp">
+        android:layout_marginVertical="12dp">
 
         <Button
             android:id="@+id/btnBack"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="10dp"
-            android:backgroundTint="#f5f5f5"
+            android:backgroundTint="@color/backgroundLight"
             android:letterSpacing="0"
             android:paddingVertical="10dp"
             android:text="Trở lại"
             android:textAllCaps="false"
-            android:textColor="#16a8ea"
+            android:textColor="@color/secondary"
             android:textSize="18dp"
-            android:layout_margin="10dp"/>
+            android:textStyle="bold"
+            android:layout_marginHorizontal="10dp"/>
 
         <Button
             android:layout_weight="1"
             android:id="@+id/btnConfirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="10dp"
-            android:backgroundTint="#16a8ea"
+            android:backgroundTint="@color/primary"
             android:letterSpacing="0"
             android:paddingVertical="10dp"
             android:text="Xong"
             android:textAllCaps="false"
-            android:textColor="#fff"
+            android:textColor="@color/textLight"
             android:textSize="18dp"
-            android:layout_margin="10dp"/>
+            android:textStyle="bold"
+            android:layout_marginHorizontal="10dp"/>
     </LinearLayout>
 
 </LinearLayout>

@@ -1,7 +1,7 @@
 package com.example.coffeestaff.Bussiness;
 
-import static com.example.coffeestaff.Data.SignedIns.COL_STAFF_ID;
-import static com.example.coffeestaff.Data.SignedIns.NAME;
+import static com.example.coffeestaff.Commons.Constants.SignedInConstants.COL_STAFF_ID;
+import static com.example.coffeestaff.Commons.Constants.SignedInConstants.NAME;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -31,12 +31,13 @@ public class SignedInBussiness {
     }
 
     public int delete(Integer id){
-        return _db.delete(NAME, "? = ?", new String[]{ COL_STAFF_ID,  id.toString()});
+        return _db.delete(NAME, COL_STAFF_ID + "=" + id.intValue(), null);
     }
 
     public SignedIns select(){
         Cursor cursor = _db.query(NAME, new String[]{ COL_STAFF_ID }, null, null, null, null, null);
         cursor.moveToFirst();
+        if(cursor.getCount() == 0) return null;
         SignedIns signedIn = new SignedIns(cursor.getInt(0));
         return signedIn;
     }

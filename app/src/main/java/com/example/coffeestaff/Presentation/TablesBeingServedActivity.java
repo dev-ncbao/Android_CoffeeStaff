@@ -19,6 +19,8 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.example.coffeestaff.Bussiness.BillBussiness;
+import com.example.coffeestaff.Bussiness.BussinessDistribution;
 import com.example.coffeestaff.Bussiness.TableBussiness;
 import com.example.coffeestaff.Data.Tables;
 import com.example.coffeestaff.R;
@@ -27,25 +29,25 @@ import java.util.ArrayList;
 
 public class TablesBeingServedActivity extends AppCompatActivity {
     private ArrayList<Tables> tables;
-    private String colorServing = "#16a8ea";
     private Integer choosedTable = -1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tablesbeingserved);
-        //
-        TableBussiness tablesHelper = new TableBussiness(this);
-        tables = tablesHelper.selectBeingServed();
+        // declare
+        BussinessDistribution bussinessDistribution = new BussinessDistribution(this);
+        TableBussiness tableBussiness = bussinessDistribution.getTableBussiness();
+        tables = tableBussiness.selectBeingServed();
+        // get views
         GridViewAdapter adapter = new GridViewAdapter(tables);
         GridView gdvTable = findViewById(R.id.gdvTable);
         TextView txtEmpty = findViewById(R.id.txtEmpty);
-        Button btnCancel = findViewById(R.id.btnCancel);
-        if(tables.size() > 0) {
-            txtEmpty.setVisibility(View.GONE);
-            gdvTable.setVisibility(View.VISIBLE);
-        }
-        //
-        ActivityResultLauncher<Intent> showDetailLauncher = registerForActivityResult(
+        Button btnBack = findViewById(R.id.btnBack);
+        // set visibility of announce
+        setVisibility(gdvTable, txtEmpty);
+        // register for serving detail result & set grid view adapter
+        ActivityResultLauncher<Intent> servingDetailLauncher = registerForActivityResult(
                 new ActivityResultContract<Intent, Integer>() {
                     @NonNull
                     @Override
@@ -59,20 +61,25 @@ public class TablesBeingServedActivity extends AppCompatActivity {
                     }
                 },
                 result -> {
-                    Log.i("result-calculate", result.toString());
+                    if (result == RESULT_OK)
+                    {
+                        tables.remove(choosedTable.intValue());
+                        adapter.update(tables);
+                        setVisibility(gdvTable, txtEmpty);
+                    }
                 });
-        //
         gdvTable.setAdapter(adapter);
         gdvTable.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(TablesBeingServedActivity.this, ServingActivity.class);
+                Intent intent = new Intent(TablesBeingServedActivity.this, ServingDetailActivity.class);
                 intent.putExtra("table", tables.get(i).getId());
-                showDetailLauncher.launch(intent);
+                choosedTable = i;
+                servingDetailLauncher.launch(intent);
             }
         });
-        //
-        btnCancel.setOnClickListener(new View.OnClickListener() {
+        // button back click event
+        btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 TablesBeingServedActivity.this.finish();
@@ -80,25 +87,36 @@ public class TablesBeingServedActivity extends AppCompatActivity {
         });
     }
 
-    class GridViewAdapter extends BaseAdapter {
-        private ArrayList<Tables> _tables;
+    private void setVisibility(GridView gdvTable, TextView txtEmpty) {
+        if (tables.size() > 0) {
+            txtEmpty.setVisibility(View.GONE);
+            gdvTable.setVisibility(View.VISIBLE);
+        }
+        else{
+            txtEmpty.setVisibility(View.VISIBLE);
+            gdvTable.setVisibility(View.GONE);
+        }
+    }
 
-        public GridViewAdapter(ArrayList<Tables> tables) {
-            _tables = tables;
+    class GridViewAdapter extends BaseAdapter {
+        private ArrayList<Tables> tables;
+
+        public GridViewAdapter(ArrayList<Tables> _tables) {
+            this.tables = _tables;
         }
 
-        public void update(ArrayList<Tables> tables) {
-            _tables = tables;
+        public void update(ArrayList<Tables> _tables) {
+            this.tables = _tables;
             notifyDataSetChanged();
         }
 
         @Override
         public int getCount() {
-            return _tables.size();
+            return tables.size();
         }
 
         public Integer getId(int i) {
-            return _tables.get(i).getId();
+            return tables.get(i).getId();
         }
 
         @Override
@@ -120,7 +138,7 @@ public class TablesBeingServedActivity extends AppCompatActivity {
             }
             TextView txtLabel = convertView.findViewById(R.id.txtLabel);
             TextView txtContainer = convertView.findViewById(R.id.txtContainer);
-            txtContainer.setBackgroundColor(Color.parseColor(colorServing));
+            txtContainer.setBackgroundColor(getResources().getColor(R.color.primary));
             txtLabel.setText(getId(i).toString());
             return convertView;
         }

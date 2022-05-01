@@ -1,10 +1,10 @@
 package com.example.coffeestaff.Bussiness;
 
-import static com.example.coffeestaff.Data.Tables.ALL_COL;
-import static com.example.coffeestaff.Data.Tables.COL_ID;
-import static com.example.coffeestaff.Data.Tables.COL_NAME;
-import static com.example.coffeestaff.Data.Tables.COL_STATUS;
-import static com.example.coffeestaff.Data.Tables.NAME;
+import static com.example.coffeestaff.Commons.Constants.TableConstants.ALL_COL;
+import static com.example.coffeestaff.Commons.Constants.TableConstants.COL_ID;
+import static com.example.coffeestaff.Commons.Constants.TableConstants.COL_NAME;
+import static com.example.coffeestaff.Commons.Constants.TableConstants.COL_STATUS;
+import static com.example.coffeestaff.Commons.Constants.TableConstants.NAME;
 
 import android.content.ContentValues;
 import android.content.Context;

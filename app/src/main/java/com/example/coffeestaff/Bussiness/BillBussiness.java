@@ -1,41 +1,26 @@
 package com.example.coffeestaff.Bussiness;
 
-import static com.example.coffeestaff.Data.Bills.ALL_COL;
-import static com.example.coffeestaff.Data.Bills.COL_ID;
-import static com.example.coffeestaff.Data.Bills.COL_PAID;
-import static com.example.coffeestaff.Data.Bills.COL_STAFF_ID;
-import static com.example.coffeestaff.Data.Bills.COL_TABLE_ID;
-import static com.example.coffeestaff.Data.Bills.COL_TIME_CREATED;
-import static com.example.coffeestaff.Data.Bills.NAME;
+import static com.example.coffeestaff.Commons.Constants.BillConstants.ALL_COL;
+import static com.example.coffeestaff.Commons.Constants.BillConstants.COL_ID;
+import static com.example.coffeestaff.Commons.Constants.BillConstants.COL_PAID;
+import static com.example.coffeestaff.Commons.Constants.BillConstants.COL_STAFF_ID;
+import static com.example.coffeestaff.Commons.Constants.BillConstants.COL_TABLE_ID;
+import static com.example.coffeestaff.Commons.Constants.BillConstants.COL_TIME_CREATED;
+import static com.example.coffeestaff.Commons.Constants.BillConstants.NAME;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.example.coffeestaff.Data.DbHelper;
 import com.example.coffeestaff.Data.Bills;
 
 public class BillBussiness {
-    /*public static final String NAME = "Bills";
-    public static final String COL_ID = "ID";
-    public static final String COL_TABLE_ID = "TableId";
-    public static final String COL_STAFF_ID = "StaffId";
-    public static final String COL_TIME_CREATED = "TimeCreated";
-    public static final String COL_PAID = "Paid";
-    public static final String[] ALL_COL = {
-            COL_ID, COL_STAFF_ID, COL_TABLE_ID, COL_TIME_CREATED, COL_PAID
-    };
-    public static final String CREATE =
-            String.format("Create Table %s(" +
-                            "%s Integer Primary Key Autoincrement," +
-                            "%s Integer," +
-                            "%s Integer," +
-                            "%s Text," +
-                            "%s Integer);",
-                    NAME, COL_ID, COL_TABLE_ID, COL_STAFF_ID, COL_TIME_CREATED, COL_PAID);*/
     private SQLiteDatabase _db;
 
     public BillBussiness(Context context) {
@@ -59,6 +44,7 @@ public class BillBussiness {
     public Bills select(int id) {
         Cursor cursor = _db.query(NAME, ALL_COL, String.format("%s = %d", COL_ID, id), null, null, null, null);
         Bills bill = null;
+        cursor.moveToFirst();
         bill = new Bills(
                 cursor.getInt(0),
                 cursor.getInt(1),
@@ -73,23 +59,55 @@ public class BillBussiness {
         ArrayList<Bills> listBill = new ArrayList<>();
         Cursor cursor = _db.query(NAME, ALL_COL, null, null, null, null, null);
         cursor.moveToFirst();
-        do {
-            Bills bill = null;
-            bill = new Bills(
-                    cursor.getInt(0),
-                    cursor.getInt(1),
-                    cursor.getInt(2),
-                    cursor.getString(3),
-                    cursor.getInt(4)
-            );
-            listBill.add(bill);
-        } while (cursor.moveToNext());
+        if (cursor.getCount() > 0) {
+            do {
+                Bills bill = null;
+                bill = new Bills(
+                        cursor.getInt(0),
+                        cursor.getInt(1),
+                        cursor.getInt(2),
+                        cursor.getString(3),
+                        cursor.getInt(4)
+                );
+                listBill.add(bill);
+            } while (cursor.moveToNext());
+        }
         return listBill;
     }
 
-    public Integer selectBillId(Integer tableId){
-        Cursor cursor = _db.query(NAME, ALL_COL, COL_TABLE_ID + "=" + tableId + " AND " + COL_PAID + "=" + 0 , null, null, null, null);
+    public ArrayList<Bills> selectAllNotPaidYet() {
+        ArrayList<Bills> listBill = new ArrayList<>();
+        Cursor cursor = _db.query(NAME, ALL_COL, COL_PAID + "=" + 1, null, null, null, null);
+        cursor.moveToFirst();
+        if (cursor.getCount() > 0) {
+            do {
+                Bills bill = null;
+                bill = new Bills(
+                        cursor.getInt(0),
+                        cursor.getInt(1),
+                        cursor.getInt(2),
+                        cursor.getString(3),
+                        cursor.getInt(4)
+                );
+                listBill.add(bill);
+            } while (cursor.moveToNext());
+        }
+        return listBill;
+    }
+
+    public Integer selectBillId(Integer tableId) {
+        Cursor cursor = _db.query(NAME, ALL_COL, COL_TABLE_ID + "=" + tableId + " AND " + COL_PAID + "=" + 0, null, null, null, null);
         cursor.moveToFirst();
         return cursor.getInt(0);
+    }
+
+    public Integer updatePaid(Bills bill) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy - hh:mm:ss a");
+        ContentValues values = new ContentValues();
+        values.put(COL_STAFF_ID, bill.getStaffId());
+        values.put(COL_TABLE_ID, bill.getTableId());
+        values.put(COL_TIME_CREATED, sdf.format(new Date()));
+        values.put(COL_PAID, 1);
+        return _db.update(NAME, values, COL_ID + "=" + bill.getId(), null);
     }
 }

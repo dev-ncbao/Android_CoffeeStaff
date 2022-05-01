@@ -12,11 +12,13 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
+        android:textSize="18dp"
         android:textAlignment="center"
-        android:text="Chọn bàn"
+        android:text="Chọn bàn gọi món"
         android:textStyle="bold"
-        android:paddingVertical="40dp"/>
+        android:paddingTop="25dp"
+        android:paddingBottom="15dp"
+        android:textColor="@color/primary"/>
 
     <GridView
         android:id="@+id/gdvTable"
@@ -40,7 +42,7 @@
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:foreground="#16a8ea"
+                android:foreground="@color/primary"
                 android:layout_marginRight="5dp"
                 android:layout_gravity="center_vertical"/>
 
@@ -48,7 +50,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Đang phục vụ"
-                android:textSize="18dp"/>
+                android:textSize="16dp"
+                android:textColor="@color/grey4"/>
         </LinearLayout>
 
         <LinearLayout
@@ -59,7 +62,7 @@
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:foreground="#849BA2"
+                android:foreground="@color/grey2"
                 android:layout_marginRight="5dp"
                 android:layout_gravity="center_vertical"/>
 
@@ -67,7 +70,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Trống"
-                android:textSize="18dp"/>
+                android:textSize="16dp"
+                android:textColor="@color/grey4"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -83,7 +87,7 @@
         android:textAllCaps="false"
         android:textStyle="bold"
         android:letterSpacing="0"
-        android:backgroundTint="#16a8ea"
-        android:textColor="#fff" />
+        android:backgroundTint="@color/primary"
+        android:textColor="@color/textLight" />
 
 </LinearLayout>

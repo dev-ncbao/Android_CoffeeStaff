@@ -3,14 +3,12 @@ package com.example.coffeestaff.Data;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-
-import com.example.coffeestaff.Bussiness.BillDetailBussiness;
-import com.example.coffeestaff.Bussiness.BillBussiness;
-import com.example.coffeestaff.Bussiness.DrinkBussiness;
-import com.example.coffeestaff.Bussiness.SignedInBussiness;
-import com.example.coffeestaff.Bussiness.StaffBussiness;
-import com.example.coffeestaff.Bussiness.TableBussiness;
+import com.example.coffeestaff.Commons.Constants.BillConstants;
+import com.example.coffeestaff.Commons.Constants.BillDetailConstants;
+import com.example.coffeestaff.Commons.Constants.DrinkConstants;
+import com.example.coffeestaff.Commons.Constants.SignedInConstants;
+import com.example.coffeestaff.Commons.Constants.StaffConstants;
+import com.example.coffeestaff.Commons.Constants.TableConstants;
 
 public class DbHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "CoffeeStaff.db";
@@ -22,24 +20,23 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL(Staffs.CREATE);
-        sqLiteDatabase.execSQL(Drinks.CREATE);
-        sqLiteDatabase.execSQL(Tables.CREATE);
-        sqLiteDatabase.execSQL(Bills.CREATE);
-        sqLiteDatabase.execSQL(BillDetails.CREATE);
-        sqLiteDatabase.execSQL(SignedIns.CREATE);
+        sqLiteDatabase.execSQL(StaffConstants.CREATE);
+        sqLiteDatabase.execSQL(DrinkConstants.CREATE);
+        sqLiteDatabase.execSQL(TableConstants.CREATE);
+        sqLiteDatabase.execSQL(BillConstants.CREATE);
+        sqLiteDatabase.execSQL(BillDetailConstants.CREATE);
+        sqLiteDatabase.execSQL(SignedInConstants.CREATE);
         DefaultConfig.initDefaultDB(sqLiteDatabase);
-        Log.i("result-initDB", "Created database");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL(String.format("Drop Table If Exists %s", BillDetails.NAME));
-        sqLiteDatabase.execSQL(String.format("Drop Table If Exists %s", Bills.NAME));
-        sqLiteDatabase.execSQL(String.format("Drop Table If Exists %s", Tables.NAME));
-        sqLiteDatabase.execSQL(String.format("Drop Table If Exists %s", Drinks.NAME));
-        sqLiteDatabase.execSQL(String.format("Drop Table If Exists %s", Staffs.NAME));
-        sqLiteDatabase.execSQL(String.format("Drop Table If Exists %s", SignedIns.NAME));
+        sqLiteDatabase.execSQL(String.format("Drop Table If Exists %s", BillDetailConstants.NAME));
+        sqLiteDatabase.execSQL(String.format("Drop Table If Exists %s", BillConstants.NAME));
+        sqLiteDatabase.execSQL(String.format("Drop Table If Exists %s", TableConstants.NAME));
+        sqLiteDatabase.execSQL(String.format("Drop Table If Exists %s", DrinkConstants.NAME));
+        sqLiteDatabase.execSQL(String.format("Drop Table If Exists %s", StaffConstants.NAME));
+        sqLiteDatabase.execSQL(String.format("Drop Table If Exists %s", SignedInConstants.NAME));
         onCreate(sqLiteDatabase);
     }
 }

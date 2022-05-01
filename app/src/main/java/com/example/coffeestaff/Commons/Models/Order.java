@@ -1,6 +1,8 @@
 package com.example.coffeestaff.Commons.Models;
 
-public class Order {
+import java.io.Serializable;
+
+public class Order implements Serializable {
     private Integer drinkId;
     private Integer amount;
 

@@ -9,16 +9,22 @@ import com.example.coffeestaff.Bussiness.DrinkBussiness;
 import com.example.coffeestaff.Bussiness.SignedInBussiness;
 import com.example.coffeestaff.Bussiness.StaffBussiness;
 import com.example.coffeestaff.Bussiness.TableBussiness;
+import com.example.coffeestaff.Commons.Constants.BillConstants;
+import com.example.coffeestaff.Commons.Constants.BillDetailConstants;
+import com.example.coffeestaff.Commons.Constants.DrinkConstants;
+import com.example.coffeestaff.Commons.Constants.SignedInConstants;
+import com.example.coffeestaff.Commons.Constants.StaffConstants;
+import com.example.coffeestaff.Commons.Constants.TableConstants;
 import com.example.coffeestaff.R;
 
 public class DefaultConfig {
     public static void dropAllTable(SQLiteDatabase db){
-        db.execSQL(String.format("Drop Table If Exists %s", BillDetails.NAME));
-        db.execSQL(String.format("Drop Table If Exists %s", Bills.NAME));
-        db.execSQL(String.format("Drop Table If Exists %s", Tables.NAME));
-        db.execSQL(String.format("Drop Table If Exists %s", Drinks.NAME));
-        db.execSQL(String.format("Drop Table If Exists %s", Staffs.NAME));
-        db.execSQL(String.format("Drop Table If Exists %s", SignedIns.NAME));
+        db.execSQL(String.format("Drop Table If Exists %s", BillDetailConstants.NAME));
+        db.execSQL(String.format("Drop Table If Exists %s", BillConstants.NAME));
+        db.execSQL(String.format("Drop Table If Exists %s", TableConstants.NAME));
+        db.execSQL(String.format("Drop Table If Exists %s", DrinkConstants.NAME));
+        db.execSQL(String.format("Drop Table If Exists %s", StaffConstants.NAME));
+        db.execSQL(String.format("Drop Table If Exists %s", SignedInConstants.NAME));
     }
 
     public static void initDefaultDB(SQLiteDatabase db){
@@ -32,7 +38,7 @@ public class DefaultConfig {
         staffBussiness.insert(new Staffs(0, "Trần Văn Chí", "staff123", "staff123"));
         staffBussiness.insert(new Staffs(0, "Lê Thị Hương", "staff456", "staff456"));
         // signed in
-        signedInBussiness.insert(new SignedIns(signedInId.intValue()));
+        //signedInBussiness.insert(new SignedIns(signedInId.intValue()));
         // drinks
         drinkBussiness.insert(new Drinks(0, "Cà phê", 17000, R.drawable.cafe));
         drinkBussiness.insert(new Drinks(0, "Cà phê sữa", 20000, R.drawable.cafe_sua));
