@@ -4,20 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.example.coffeestaff.Bussiness.BussinessDistribution;
 import com.example.coffeestaff.Bussiness.SignedInBussiness;
 import com.example.coffeestaff.Data.DbHelper;
-import com.example.coffeestaff.Data.DefaultConfig;
 import com.example.coffeestaff.Data.SignedIns;
-import com.example.coffeestaff.Data.Staffs;
 import com.example.coffeestaff.Presentation.HomeActivity;
 import com.example.coffeestaff.Presentation.LoginActivity;
 
-import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 

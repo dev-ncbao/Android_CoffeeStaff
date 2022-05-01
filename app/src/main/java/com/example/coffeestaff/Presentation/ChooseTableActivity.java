@@ -16,10 +16,9 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.coffeestaff.Bussiness.BussinessDistribution;
-import com.example.coffeestaff.Commons.Helpers.ConvertDateTime;
+import com.example.coffeestaff.Commons.Helpers.DateTime;
 import com.example.coffeestaff.Commons.Models.Order;
 import com.example.coffeestaff.Bussiness.BillDetailBussiness;
 import com.example.coffeestaff.Bussiness.BillBussiness;
@@ -141,7 +140,7 @@ public class ChooseTableActivity extends AppCompatActivity {
                         // update view
                         adapter.update(tables);
                         // insert new bill
-                        Bills bill = new Bills(0, tables.get(choosedTable).getId(), signedIn.getStaffId(), ConvertDateTime.convert(new Date()), 0);
+                        Bills bill = new Bills(0, tables.get(choosedTable).getId(), signedIn.getStaffId(), DateTime.convert(new Date()), 0);
                         Long billId = billsBussiness.insert(bill);
                         // update table status
                         tableBussiness.updateStatus(tables.get(choosedTable));

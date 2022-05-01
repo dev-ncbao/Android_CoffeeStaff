@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -20,7 +19,6 @@ import com.example.coffeestaff.Bussiness.DrinkBussiness;
 import com.example.coffeestaff.Bussiness.StaffBussiness;
 import com.example.coffeestaff.Bussiness.TableBussiness;
 import com.example.coffeestaff.Commons.Helpers.Calculate;
-import com.example.coffeestaff.Commons.Helpers.ConvertDateTime;
 import com.example.coffeestaff.Data.BillDetails;
 import com.example.coffeestaff.Data.Bills;
 import com.example.coffeestaff.Data.Drinks;
@@ -28,12 +26,8 @@ import com.example.coffeestaff.Data.Staffs;
 import com.example.coffeestaff.Data.Tables;
 import com.example.coffeestaff.R;
 
-import java.text.DateFormat;
 import java.text.NumberFormat;
-import java.text.ParseException;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Locale;
 
 public class BillDetailActivity extends AppCompatActivity {

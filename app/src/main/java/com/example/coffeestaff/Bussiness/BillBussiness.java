@@ -77,7 +77,27 @@ public class BillBussiness {
 
     public ArrayList<Bills> selectAllNotPaidYet() {
         ArrayList<Bills> listBill = new ArrayList<>();
-        Cursor cursor = _db.query(NAME, ALL_COL, COL_PAID + "=" + 1, null, null, null, null);
+        Cursor cursor = _db.query(NAME, ALL_COL, COL_PAID + "=" + 1, null, null, null, COL_TIME_CREATED + " DESC");
+        cursor.moveToFirst();
+        if (cursor.getCount() > 0) {
+            do {
+                Bills bill = null;
+                bill = new Bills(
+                        cursor.getInt(0),
+                        cursor.getInt(1),
+                        cursor.getInt(2),
+                        cursor.getString(3),
+                        cursor.getInt(4)
+                );
+                listBill.add(bill);
+            } while (cursor.moveToNext());
+        }
+        return listBill;
+    }
+
+    public ArrayList<Bills> selectAllNotPaidYet(String date) {
+        ArrayList<Bills> listBill = new ArrayList<>();
+        Cursor cursor = _db.query(NAME, ALL_COL, COL_PAID + "=" + 1 + " AND substr(" + COL_TIME_CREATED + ", 0, 11)=\"" + date + "\"", null, null, null, COL_TIME_CREATED + " DESC");
         cursor.moveToFirst();
         if (cursor.getCount() > 0) {
             do {
